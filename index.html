@@ -1,56 +1,44 @@
 <!DOCTYPE html>
-
 <html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Calculadora</title>
+  <div class="container">
+    <div class="display">
+      <input type="text" id="resultado" readonly value="0" />
+    </div>
+    <div class="botones">
+      <button class="operador cls" data-valor="C">C</button>
+      <button class="operador" data-valor="←">←</button>
+      <button class="operador" data-valor="%">%</button>
+      <button class="operador" data-valor="/">/</button>
 
-        <!-- CSS -->
-        <link rel="stylesheet" href="style.css">
-    </head>
+      <button class="numero" data-valor="7">7</button>
+      <button class="numero" data-valor="8">8</button>
+      <button class="numero" data-valor="9">9</button>
+      <button class="operador" data-valor="*">×</button>
 
-    <body>
+      <button class="numero" data-valor="4">4</button>
+      <button class="numero" data-valor="5">5</button>
+      <button class="numero" data-valor="6">6</button>
+      <button class="operador" data-valor="-">-</button>
 
-        <div class="container">
+      <button class="numero" data-valor="1">1</button>
+      <button class="numero" data-valor="2">2</button>
+      <button class="numero" data-valor="3">3</button>
+      <button class="operador" data-valor="+">+</button>
 
-            <div class="display">
-                <input type="text" id="resultado" value="0" readonly>
-            </div>
+      <button class="numero" data-valor="0">0</button>
+      <button class="numero" data-valor=".">.</button>
+      <button class="operador igual" data-valor="=">=</button>
+    </div>
+  </div>
 
-            <div class="botones">
-
-                <button class="operador">C</button>
-                <button class="operador">←</button>
-                <button class="operador">%</button>
-                <button class="operador">/</button>
-
-                <button class="numero">7</button>
-                <button class="numero">8</button>
-                <button class="numero">9</button>
-                <button class="operador">*</button>
-
-                <button class="numero">4</button>
-                <button class="numero">5</button>
-                <button class="numero">6</button>
-                <button class="operador">-</button>
-
-                <button class="numero">1</button>
-                <button class="numero">2</button>
-                <button class="numero">3</button>
-                <button class="operador">+</button>
-
-                <button class="numero">0</button>
-                <button class="numero">.</button>
-                <button class="operador igual">=</button>
-
-            </div>
-
-        </div>
-
-        <!-- JavaScript -->
-        <script src="script.js"></script>
-    </body>
-
+  <script src="script.js"></script>
+</body>
 </html>

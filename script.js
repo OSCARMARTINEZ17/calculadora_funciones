@@ -1,99 +1,92 @@
-const resultado = document.getElementById("resultado");
+const resultado = document.getElementById('resultado');
+const botones = document.querySelectorAll('button');
 
-const botones = document.querySelectorAll("button");
-
-botones.forEach(boton => {
-
-    boton.addEventListener("click", () => {
-
-        let valor = boton.textContent;
-
-        // Limpiar pantalla
-        if (valor === "C") {
-            resultado.value = "0";
-            return;
-        }
-
-        // Borrar último carácter
-        if (valor === "←") {
-
-            if (resultado.value.length > 1) {
-                resultado.value = resultado.value.slice(0, -1);
-            } else {
-                resultado.value = "0";
-            }
-
-            return;
-        }
-
-        // Porcentaje
-        if (valor === "%") {
-
-            try {
-                resultado.value = eval(resultado.value) / 100;
-            } catch {
-                resultado.value = "Error";
-            }
-
-            return;
-        }
-
-        // Resultado
-        if (valor === "=") {
-
-            try {
-
-                if (resultado.value.includes("/0")) {
-                    throw new Error("División por cero");
-                }
-
-                resultado.value = eval(resultado.value);
-
-                setTimeout(() => {
-                    resultado.value = "0";
-                }, 3000);
-
-            } catch {
-
-                resultado.value = "Error";
-
-                setTimeout(() => {
-                    resultado.value = "0";
-                }, 3000);
-            }
-
-            return;
-        }
-
-        // Validar operadores al inicio
-        if (
-            resultado.value === "0" &&
-            ["+", "-", "*", "/"].includes(valor)
-        ) {
-            alert("El formato usado no es válido!");
-            return;
-        }
-
-        // Punto decimal único
-        if (valor === ".") {
-
-            if (resultado.value.includes(".")) {
-                return;
-            }
-
-            if (resultado.value === "0") {
-                resultado.value = "0.";
-                return;
-            }
-        }
-
-        // Reemplazar cero inicial
-        if (resultado.value === "0") {
-            resultado.value = valor;
-        } else {
-            resultado.value += valor;
-        }
-
-    });
-
+botones.forEach(function(boton) {
+  boton.addEventListener('click', function() {
+    const valor = boton.getAttribute('data-valor');
+    manejarClick(valor);
+  });
 });
+
+function manejarClick(valor) {
+  const actual = resultado.value;
+
+  if (valor === 'C') {
+    resultado.value = '0';
+    return;
+  }
+
+  if (valor === '←') {
+    if (actual.length <= 1) {
+      resultado.value = '0';
+    } else {
+      resultado.value = actual.slice(0, -1);
+    }
+    return;
+  }
+
+  const operadores = ['+', '-', '*', '/'];
+  const esOperador = operadores.includes(valor);
+
+  if (valor === '%') {
+    try {
+      const num = parseFloat(actual);
+      if (isNaN(num)) throw new Error('Valor inválido');
+      resultado.value = String(num / 100);
+    } catch (e) {
+      resultado.value = 'Error';
+    }
+    return;
+  }
+
+  if (valor === '=') {
+    try {
+      const expresion = actual.replace(/×/g, '*').replace(/÷/g, '/');
+      if (expresion.includes('/0')) throw new Error('División por cero');
+      const res = eval(expresion);
+      if (res === undefined || res === null || isNaN(res)) throw new Error('Inválido');
+      resultado.value = String(res);
+      setTimeout(function() {
+        resultado.value = '0';
+      }, 3000);
+    } catch (e) {
+      resultado.value = 'Error';
+      setTimeout(function() {
+        resultado.value = '0';
+      }, 2000);
+    }
+    return;
+  }
+
+  if (esOperador) {
+    if (actual === '0' || actual === '') {
+      alert('El formato usado no es válido!');
+      return;
+    }
+    const ultimoCaracter = actual[actual.length - 1];
+    if (operadores.includes(ultimoCaracter)) {
+      resultado.value = actual.slice(0, -1) + valor;
+    } else {
+      resultado.value = actual + valor;
+    }
+    return;
+  }
+
+  if (valor === '.') {
+    const partes = actual.split(/[\+\-\*\/]/);
+    const ultimaParte = partes[partes.length - 1];
+    if (ultimaParte.includes('.')) return;
+    if (actual === '0') {
+      resultado.value = '0.';
+    } else {
+      resultado.value = actual + '.';
+    }
+    return;
+  }
+
+  if (actual === '0') {
+    resultado.value = valor;
+  } else {
+    resultado.value = actual + valor;
+  }
+}
