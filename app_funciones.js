@@ -1,14 +1,5 @@
-const resultado = document.getElementById('resultado');
-const botones = document.querySelectorAll('button');
-
-botones.forEach(function(boton) {
-  boton.addEventListener('click', function() {
-    const valor = boton.getAttribute('data-valor');
-    manejarClick(valor);
-  });
-});
-
 function manejarClick(valor) {
+  const resultado = document.getElementById('resultado');
   const actual = resultado.value;
 
   if (valor === 'C') {
@@ -26,7 +17,6 @@ function manejarClick(valor) {
   }
 
   const operadores = ['+', '-', '*', '/'];
-  const esOperador = operadores.includes(valor);
 
   if (valor === '%') {
     try {
@@ -46,19 +36,19 @@ function manejarClick(valor) {
       const res = eval(expresion);
       if (res === undefined || res === null || isNaN(res)) throw new Error('Inválido');
       resultado.value = String(res);
-      setTimeout(function() {
+      setTimeout(function () {
         resultado.value = '0';
       }, 3000);
     } catch (e) {
       resultado.value = 'Error';
-      setTimeout(function() {
+      setTimeout(function () {
         resultado.value = '0';
       }, 2000);
     }
     return;
   }
 
-  if (esOperador) {
+  if (operadores.includes(valor)) {
     if (actual === '0' || actual === '') {
       alert('El formato usado no es válido!');
       return;
